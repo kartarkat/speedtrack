@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import cx from 'clsx';
 
 export const Board = () => {
 
@@ -67,7 +66,7 @@ export const Board = () => {
     return (
         <div className="flex w-full flex-grow items-center justify-center h-screen">
             <div className="grid h-[372px] w-80 max-w-xs grid-cols-4 grid-rows-6 gap-[5px] p-2">
-                {boxes.map((box, index) => renderBox(box))}
+                {boxes.map(box => renderBox(box))}
             </div>
             <div>score : {score}</div>
         </div>
