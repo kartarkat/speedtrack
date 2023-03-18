@@ -7,8 +7,8 @@ export const Board = ({ gameData, gotoMenu }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [boxes, setBoxes] = useState([]);
     const [currentCards, setCurrentCards] = useState([]);
-    const [timeLeft, setTimeLeft] = useState(120);
-    const [gameOver, setGameOver] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(10);
+    const [gameOver, setGameOver] = useState({ running: true, win: false });
 
     const generateBoxes = async () => {
         const { mode } = gameData
@@ -22,6 +22,14 @@ export const Board = ({ gameData, gotoMenu }) => {
     useEffect(() => {
         generateBoxes()
     }, []);
+
+    useEffect(()=>{
+        if(boxes.length > 1){
+            const isAllFound = boxes.every((box) => box.isFound);
+            console.log(isAllFound)
+            if (isAllFound) setGameOver({ running: false, win: true });
+        }
+    },[boxes])
 
 
     useEffect(() => {
@@ -55,7 +63,7 @@ export const Board = ({ gameData, gotoMenu }) => {
 
         if (timeLeft === 0) {
             clearInterval(timer);
-            setGameOver(true);
+            setGameOver(prev => prev ? { ...prev, running: false} : prev);
         }
 
         return () => {
@@ -64,7 +72,7 @@ export const Board = ({ gameData, gotoMenu }) => {
     }, [timeLeft]);
 
     const handleRestart = async () => {
-        setGameOver(false);
+        setGameOver({ running: true, win: false });
         generateBoxes()
     };
 
@@ -74,11 +82,6 @@ export const Board = ({ gameData, gotoMenu }) => {
                 prevBoxes.map((box) => box.id === id && !box.isFound ? { ...box, isFlipped: true } : box)
             );
             setCurrentCards((prevCards) => [...prevCards, boxes.find((box) => box.id === id)]);
-        }
-
-        const isAllFound = boxes.every((box) => box.isFound);
-        if (isAllFound) {
-            setGameOver(true);
         }
     };
 
@@ -106,23 +109,22 @@ export const Board = ({ gameData, gotoMenu }) => {
                 ))}
             </div>
             <div className="flex h-[125px] flex-col items-center justify-center mt-4">
-                <div className="text-xl">Time Left: {timeLeft}s</div>
-                {gameOver ? (
+                {gameOver.running ? (
+                    <div className="text-xl">Time Left: {timeLeft}s</div>
+                ) :
                     <div className="flex flex-col items-center justify-center">
-                        <div className="text-2xl font-bold text-red-600">Game Over</div>
-                        
-
+                        {gameOver.win ? <div className="text-2xl font-bold text-blue-600">You won</div>
+                            : <div className="text-2xl font-bold text-red-600">Game Over</div>}
                     </div>
-                ) : (
-                    <div className='flex gap-5'>
-                        <button onClick={handleRestart} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-                            Restart
-                        </button>
-                        <button onClick={gotoMenu} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">
-                            Main Menu
-                        </button>
-                    </div>
-                )}
+                }
+                <div className='flex gap-5'>
+                    <button onClick={handleRestart} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
+                        Restart
+                    </button>
+                    <button onClick={gotoMenu} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">
+                        Main Menu
+                    </button>
+                </div>
             </div>
         </div>
     );
