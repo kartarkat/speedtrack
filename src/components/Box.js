@@ -6,15 +6,15 @@ export default function Box({ data, onClick, gameType }) {
     const aspectRatio = "1 / 1";
     return (
         <div
-        className={`flex select-none items-center justify-center border-2 text-3xl font-bold uppercase border-gray-50 dark:border-gray-100 text-black
+        className={`flex select-none items-center justify-center border-2 cursor-pointer text-3xl font-bold uppercase border-gray-50 dark:border-gray-100 text-black
         ${isFlipped ? 'bg-white flip-right' : 'bg-blue-500 flip-left'} 
-        ${isFound ? 'opacity-25 pointer-events-none' : ''}`}
+        ${isFound ?  'opacity-100 dark:border-red-500' : ''}`}
             key={id}
             onClick={() => isFlipped ? undefined : onClick(id)}
             style={{ aspectRatio }}
         >
             {gameType === 'images' ?
-                <div className={isFlipped || isFound ? '' : 'hidden'}>
+                <div className={isFlipped || isFound ? '' : 'hidden'} style={{opacity: isFound ? 0.5 : 1 }}>
                     <Image
                         priority
                         width={100}

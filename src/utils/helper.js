@@ -1,7 +1,7 @@
 const generateRoboHashUrls = (totalCount) => {
     const urls = [];
     for (let i = 0; i < totalCount; i++) {
-      const randomNumber = Math.floor(Math.random() * 1000); // generate a random number between 0 and 999
+      const randomNumber = Math.floor(Math.random() * 100);
       urls.push(`https://robohash.org/${randomNumber}`);
     }
     return urls;
