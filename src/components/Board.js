@@ -31,9 +31,8 @@ export const Board = ({ gameData, gotoMenu }) => {
         }
     }, [boxes])
 
-
     useEffect(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
             if (currentCards.length === 2) {
                 const [firstCard, secondCard] = currentCards;
                 if (firstCard.value === secondCard.value) {
@@ -47,8 +46,6 @@ export const Board = ({ gameData, gotoMenu }) => {
             }
         }, 750)
     }, [currentCards]);
-
-
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -94,7 +91,7 @@ export const Board = ({ gameData, gotoMenu }) => {
                         gameType={gameData.type}
                         key={box.id}
                         data={box}
-                        onClick={currentCards.length === 2 && gameOver.running ? () => { } : () => handleBoxClick(box.id)}
+                        onClick={currentCards.length === 2 || !gameOver.running ? () => { } : () => handleBoxClick(box.id)}
                     />
                 ))}
             </div>
