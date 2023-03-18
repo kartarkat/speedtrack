@@ -12,9 +12,9 @@ export const Board = ({ gameData, gotoMenu }) => {
 
     const generateBoxes = async () => {
         const { mode } = gameData
-        if(mode === 'easy') setTimeLeft(120)
-        if(mode === 'medium') setTimeLeft(150)
-        if(mode === 'hard') setTimeLeft(180)
+        if (mode === 'easy') setTimeLeft(120)
+        if (mode === 'medium') setTimeLeft(150)
+        if (mode === 'hard') setTimeLeft(180)
         setBoxes(await generateBoxesHelper(gameData));
         setIsLoading(false);
     }
@@ -23,38 +23,32 @@ export const Board = ({ gameData, gotoMenu }) => {
         generateBoxes()
     }, []);
 
-    useEffect(()=>{
-        if(boxes.length > 1){
+    useEffect(() => {
+        if (boxes.length > 1) {
             const isAllFound = boxes.every((box) => box.isFound);
             console.log(isAllFound)
             if (isAllFound) setGameOver({ running: false, win: true });
         }
-    },[boxes])
+    }, [boxes])
 
 
     useEffect(() => {
-        if (currentCards.length === 2) {
-            const [firstCard, secondCard] = currentCards;
-            if (firstCard.value === secondCard.value) {
-                setBoxes((prevBoxes) =>
-                    prevBoxes.map((box) =>
-                        box.value === firstCard.value ? { ...box, isFound: true } : box
-                    )
-                );
-            } else {
-                setTimeout(() => {
-                    setBoxes((prevBoxes) =>
-                        prevBoxes.map((box) =>
-                            !box.isFound && (box.id === firstCard.id || box.id === secondCard.id)
-                                ? { ...box, isFlipped: false }
-                                : box
-                        )
+        setTimeout(()=>{
+            if (currentCards.length === 2) {
+                const [firstCard, secondCard] = currentCards;
+                if (firstCard.value === secondCard.value) {
+                    setBoxes((prevBoxes) => prevBoxes.map((box) => box.value === firstCard.value ? { ...box, isFound: true } : box)
                     );
-                }, 1000);
+                } else {
+                    setBoxes((prevBoxes) => prevBoxes.map((box) => !box.isFound && (box.id === firstCard.id || box.id === secondCard.id)
+                        ? { ...box, isFlipped: false } : box));
+                }
+                setCurrentCards([]);
             }
-            setCurrentCards([]);
-        }
+        }, 750)
     }, [currentCards]);
+
+
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -63,7 +57,7 @@ export const Board = ({ gameData, gotoMenu }) => {
 
         if (timeLeft === 0) {
             clearInterval(timer);
-            setGameOver(prev => prev ? { ...prev, running: false} : prev);
+            setGameOver(prev => prev ? { ...prev, running: false } : prev);
         }
 
         return () => {
@@ -77,12 +71,8 @@ export const Board = ({ gameData, gotoMenu }) => {
     };
 
     const handleBoxClick = (id) => {
-        if (currentCards.length < 2) {
-            setBoxes((prevBoxes) =>
-                prevBoxes.map((box) => box.id === id && !box.isFound ? { ...box, isFlipped: true } : box)
-            );
-            setCurrentCards((prevCards) => [...prevCards, boxes.find((box) => box.id === id)]);
-        }
+        setBoxes((prevBoxes) => prevBoxes.map((box) => box.id === id && !box.isFound ? { ...box, isFlipped: true } : box));
+        setCurrentCards((prevCards) => [...prevCards, boxes.find((box) => box.id === id)])
     };
 
     if (isLoading) {
@@ -104,7 +94,7 @@ export const Board = ({ gameData, gotoMenu }) => {
                         gameType={gameData.type}
                         key={box.id}
                         data={box}
-                        onClick={currentCards.length === 2 && gameOver ? () => { } : () => handleBoxClick(box.id)}
+                        onClick={currentCards.length === 2 && gameOver.running ? () => { } : () => handleBoxClick(box.id)}
                     />
                 ))}
             </div>
