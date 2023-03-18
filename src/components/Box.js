@@ -8,7 +8,7 @@ export default function Box({ data, onClick, gameType }) {
         <div
         className={`flex select-none items-center justify-center border-2 cursor-pointer text-3xl font-bold uppercase border-gray-50 dark:border-gray-100 text-black
         ${isFlipped ? 'bg-white flip-right' : 'bg-blue-500 flip-left'} 
-        ${isFound ?  'opacity-100 dark:border-red-500' : ''}`}
+        ${isFound ?  'opacity-100 dark:border-red-500 cursor-auto' : ''}`}
             key={id}
             onClick={() => isFlipped ? undefined : onClick(id)}
             style={{ aspectRatio }}

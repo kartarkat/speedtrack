@@ -19,7 +19,7 @@ export function Seo({
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>{title}</title>
       <meta name="description" content={description} />
-      <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+      <link rel="icon" type="image/svg+xml" href="favicon.ico" />
       <meta name="author" content={meta.authorName} />
 
       {/* Open Graph */}
