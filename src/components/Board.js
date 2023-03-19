@@ -105,10 +105,10 @@ export const Board = ({ gameData, gotoMenu }) => {
                     </div>
                 }
                 <div className='flex gap-5'>
-                    <button onClick={handleRestart} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <button onClick={handleRestart} className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-800 text-white rounded-md">
                         Restart
                     </button>
-                    <button onClick={gotoMenu} className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">
+                    <button onClick={gotoMenu} className="mt-4 px-4 py-2 bg-gray-500 hover:bg-gray-700 text-white rounded-md">
                         Main Menu
                     </button>
                 </div>

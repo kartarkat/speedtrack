@@ -37,6 +37,7 @@ export function GameOptions({ setGameData }) {
             {options.map((option, i) => (
                 <div key={i} className="flex items-center mb-2">
                     <input
+                        id={option.value}
                         type="radio"
                         name="game-type"
                         value={option.value}
@@ -57,7 +58,7 @@ export function GameOptions({ setGameData }) {
         <div className="flex flex-col gap-10 items-center justify-center h-screen text-center">
             {renderSelect('Select game mode:', modeOptions)}
             {renderType('Select game type:', typeOptions)}
-            <button onClick={handleStartClick} className="mt-4 px-6 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+            <button onClick={handleStartClick} className="mt-4 px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-800">
                 Start Game
             </button>
         </div>
